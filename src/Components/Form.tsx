@@ -3,9 +3,9 @@ import useFetch from "react-fetch-hook";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "react-bootstrap/Button";
-import schema from "./Form.schema";
-import formTexts from "./Form.texts";
-import formLinks from "./Form.links";
+import schema from "./components/Form.schema";
+import formTexts from "./components/Form.texts";
+import formLinks from "./components/Form.links";
 
 interface Department {
   id: number;

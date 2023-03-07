@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "./styles.css";
 
-import { Form } from "./Components/Form";
+import { Form } from "./components/Form";
 
 export default function App() {
   return (
