@@ -87,7 +87,7 @@ export const Form = () => {
               type="text"
               className="form-control"
               id="user-birth-date"
-              placeholder="DD/MM/YYYY"
+              placeholder="MM/DD/YYYY"
               name="date"
             />
             {errors.date && (

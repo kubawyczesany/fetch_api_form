@@ -5,7 +5,7 @@ const schema = yup.object().shape({
   date: yup
     .date()
     .required("Data jest wymagana")
-    .typeError("Data musi być w formacie DD/MM/YYYY"),
+    .typeError("Data musi być w formacie MM/DD/YYYY"),
   email: yup
     .string()
     .email("Email musi być poprawnym adresem")
