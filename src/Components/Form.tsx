@@ -1,38 +1,16 @@
 import React, { useState } from "react";
 import useFetch from "react-fetch-hook";
 import { useForm } from "react-hook-form";
-import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "react-bootstrap/Button";
-import "bootstrap/dist/css/bootstrap.min.css";
+import schema from "./Form.schema";
+import formTexts from "./Form.texts";
+import formLinks from "./Form.links";
 
 interface Department {
   id: number;
   name: string;
 }
-const schema = yup.object().shape({
-  name: yup.string().required("Imię i nazwisko jest wymagane"),
-  date: yup
-    .date()
-    .required("Data jest wymagana")
-    .typeError("Data musi być w formacie DD/MM/YYYY"),
-  email: yup
-    .string()
-    .email("Email musi być poprawnym adresem")
-    .required("Email jest wymagany"),
-  department: yup
-    .string()
-    .test("val", "Proszę wybierz oddział", (val) => val != "Wybierz oddział")
-    .required(),
-  checkbox: yup.bool().oneOf([true], "Aby kontynuować zaakceptuj regulamin"),
-});
-
-const logoSrc =
-  "https://diag.pl/katalogi/wp-content/themes/diag/dist/img/square_logo.png";
-const getUrl =
-  "https://ddh-front-default-rtdb.europe-west1.firebasedatabase.app/departments.json";
-const postUrl =
-  "https://ddh-front-default-rtdb.europe-west1.firebasedatabase.app/users.json";
 
 export const Form = () => {
   const {
@@ -44,8 +22,7 @@ export const Form = () => {
   const [message, setMessage] = useState("");
 
   const onSubmit = () => {
-    console.log(data);
-    fetch(postUrl, {
+    fetch(formLinks.postUrl, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -60,25 +37,25 @@ export const Form = () => {
         return response.json();
       })
       .then(() => {
-        setMessage("Dane zostały poprawnie zapisane");
-        setStatus("success");
+        setMessage(formTexts.messageSuccessful);
+        setStatus(formTexts.success);
       })
       .catch((err) => {
         setMessage(err.toString());
-        setStatus("error");
+        setStatus(formTexts.error);
       });
   };
 
-  const { isLoading, data, error } = useFetch<Department[]>(getUrl);
+  const { isLoading, data, error } = useFetch<Department[]>(formLinks.getUrl);
 
   return isLoading ? (
     <div className="d-flex justify-content-center text-success">
-      Ładowanie...
+      {formTexts.loading}
     </div>
   ) : (
     <>
       <div className="text-center">
-        <img className="img-fluid w-50 p-3" src={logoSrc}></img>
+        <img className="img-fluid w-50 p-3" src={formLinks.logoSrc}></img>
       </div>
       <div className="d-flex bg-gradient-light">
         <form
@@ -87,7 +64,7 @@ export const Form = () => {
         >
           <div className="mb-3">
             <label htmlFor="user-name" className="form-label">
-              Imię i nazwisko
+              {formTexts.name}
             </label>
             <input
               {...register("name")}
@@ -103,7 +80,7 @@ export const Form = () => {
           </div>
           <div className="mb-3">
             <label htmlFor="user-birth-date" className="form-label">
-              Data urodzenia
+              {formTexts.dateOfBirth}
             </label>
             <input
               {...register("date")}
@@ -119,7 +96,7 @@ export const Form = () => {
           </div>
           <div className="mb-3">
             <label htmlFor="user-email" className="form-label">
-              Email
+              {formTexts.email}
             </label>
             <input
               {...register("email")}
@@ -135,7 +112,7 @@ export const Form = () => {
           </div>
           <div className="mb-3">
             <label htmlFor="user-department" className="form-label">
-              Wydział
+              {formTexts.department}
             </label>
             <select
               {...register("department")}
@@ -145,7 +122,7 @@ export const Form = () => {
               defaultValue="Wybierz oddział"
             >
               <option disabled hidden>
-                Wybierz oddział
+                {formTexts.chooseDepartment}
               </option>
               {data &&
                 data.map(({ id, name }) => (
@@ -156,7 +133,10 @@ export const Form = () => {
             </select>
           </div>
           {error && (
-            <p className="text-danger">{`Wystąpił problem podczas pobierania danych: ${error}`}</p>
+            <p className="text-danger">
+              {formTexts.getDataError}
+              {error}
+            </p>
           )}
           <div className="form-check">
             <input
@@ -168,7 +148,7 @@ export const Form = () => {
               name="checkbox"
             />
             <label className="form-check-label" htmlFor="form-terms">
-              Akceptuję regulamin
+              {formTexts.acceptConditions}
             </label>
             {errors.checkbox && (
               <p className="text-danger">{errors.checkbox.message}</p>
@@ -176,7 +156,7 @@ export const Form = () => {
           </div>
           <div className="d-grid gap-2 d-md-flex justify-content-md-end">
             <Button type="submit" className="btn btn-dark">
-              Zapisz
+              {formTexts.save}
             </Button>
           </div>
           <p className="text-success">{message}</p>
