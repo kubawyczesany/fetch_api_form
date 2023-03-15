@@ -11,5 +11,6 @@ const formTexts = {
   getDataError: "Wystąpił problem podczas pobierania danych:",
   acceptConditions: "Akceptuję regulamin",
   save: "Zapisz",
+  upload: "Dodaj plik: ",
 };
 export default formTexts;

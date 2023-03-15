@@ -21,12 +21,13 @@ export const Form = () => {
   const [status, setStatus] = useState("");
   const [message, setMessage] = useState("");
 
-  const onSubmit = () => {
+  const onSubmit = (data: Object) => {
+    console.log(data);
     fetch(formLinks.postUrl, {
       method: "POST",
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: "multipart/form-data",
+        "Content-Type": "multipart/form-data",
       },
       body: JSON.stringify(data),
     })
@@ -131,6 +132,17 @@ export const Form = () => {
                   </option>
                 ))}
             </select>
+          </div>
+          <div className="mb-3">
+            <label htmlFor="user-upload" className="form-label">
+              {formTexts.upload}
+            </label>
+            <input
+              type="file"
+              {...register("file")}
+              name="file"
+              id="uploaded-file"
+            ></input>
           </div>
           {error && (
             <p className="text-danger">
