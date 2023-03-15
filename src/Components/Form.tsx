@@ -22,7 +22,6 @@ export const Form = () => {
   const [message, setMessage] = useState("");
 
   const onSubmit = (data: Object) => {
-    console.log(data);
     fetch(formLinks.postUrl, {
       method: "POST",
       headers: {
